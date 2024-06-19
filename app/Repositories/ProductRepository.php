@@ -21,7 +21,6 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $perPage = $data['per_page'] ?? 15;
         $page = $data['page'] ?? 1;
-        $search = $data['search'] ?? '';
 
         // Calculate the start and end indices for pagination
         $start = ($page - 1) * $perPage;
@@ -49,12 +48,6 @@ class ProductRepository implements ProductRepositoryInterface
         if (empty($products)) {
             // Fetch products from database
             $query = Product::query()->with('category');
-
-            if ($search) {
-                $query->where('products.id', 'like', '%' . $search . '%')
-                    ->orWhere('products.name', 'like', '%' . $search . '%')
-                    ->orWhereRelation('category', 'name','like', '%' . $search . '%');
-            }
 
             $products = $query->paginate($perPage)->toArray();
 
