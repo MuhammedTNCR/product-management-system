@@ -23,7 +23,7 @@ class Product extends Model
         });
 
         static::created(function ($product) {
-            $product->saveToRedis();
+            self::saveToRedis($product);
         });
     }
 
@@ -41,15 +41,17 @@ class Product extends Model
         return self::where('sku', $sku)->exists();
     }
 
-    private function saveToRedis()
+    public static function saveToRedis($product)
     {
-        Redis::hmset("product:$this->id", [
-            'name' => $this->name,
-            'category_id' => $this->category_id,
-            'price' => $this->price,
-            'stock' => $this->stock,
-            'sku' => $this->sku
+        Redis::hmset("product:$product->id", [
+            'name' => $product->name,
+            'category' => json_encode($product->category->toArray()),
+            'price' => $product->price,
+            'stock' => $product->stock,
+            'sku' => $product->sku
         ]);
+
+        Redis::sadd('product_ids', $product->id);
     }
 
     public function category(): BelongsTo
