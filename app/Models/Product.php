@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -20,6 +21,10 @@ class Product extends Model
         static::creating(function ($product) {
             $product->sku = self::generateUniqueSku();
         });
+
+        static::created(function ($product) {
+            $product->saveToRedis();
+        });
     }
 
     private static function generateUniqueSku(): string
@@ -34,6 +39,17 @@ class Product extends Model
     private static function skuExists($sku)
     {
         return self::where('sku', $sku)->exists();
+    }
+
+    private function saveToRedis()
+    {
+        Redis::hmset("product:$this->id", [
+            'name' => $this->name,
+            'category_id' => $this->category_id,
+            'price' => $this->price,
+            'stock' => $this->stock,
+            'sku' => $this->sku
+        ]);
     }
 
     public function category(): BelongsTo
