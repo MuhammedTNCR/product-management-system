@@ -13,6 +13,11 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function create(array $data)
     {
-        $this->product->create($data);
+        return $this->product->create($data);
+    }
+
+    public function index(int $per_page)
+    {
+        return $this->product->paginate($per_page);
     }
 }

@@ -16,9 +16,10 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $products = $this->productRepository->index($request->per_page ?? 15);
+        return response()->json($products);
     }
 
     /**
