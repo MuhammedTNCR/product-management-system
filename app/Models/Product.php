@@ -43,15 +43,22 @@ class Product extends Model
 
     public static function saveToRedis($product)
     {
-        Redis::hmset("product:$product->id", [
-            'name' => $product->name,
-            'category' => json_encode($product->category->toArray()),
-            'price' => $product->price,
-            'stock' => $product->stock,
-            'sku' => $product->sku
+        $id = $product->id ?? $product['id'];
+        $name = $product->name ?? $product['name'];
+        $category = !is_array($product) ? $product->category->toArray() : $product['category'];
+        $price = $product->price ?? $product['price'];
+        $stock = $product->price ?? $product['stock'];
+        $sku = $product->sku ?? $product['sku'];
+
+        Redis::hmset("product:$id", [
+            'name' => $name,
+            'category' => json_encode($category),
+            'price' => $price,
+            'stock' => $stock,
+            'sku' => $sku
         ]);
 
-        Redis::sadd('product_ids', $product->id);
+        Redis::sadd('product_ids', $id);
     }
 
     public function category(): BelongsTo

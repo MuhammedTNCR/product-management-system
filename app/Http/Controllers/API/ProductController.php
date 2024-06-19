@@ -18,7 +18,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = $this->productRepository->index($request->per_page ?? 15);
+        $products = $this->productRepository->index($request->all());
         return response()->json($products);
     }
 

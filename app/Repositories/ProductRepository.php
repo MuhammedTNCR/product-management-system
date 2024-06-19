@@ -51,8 +51,8 @@ class ProductRepository implements ProductRepositoryInterface
             $query = Product::query()->with('category');
 
             if ($search) {
-                $query->where('id', 'like', '%' . $search . '%')
-                    ->orWhere('name', 'like', '%' . $search . '%')
+                $query->where('products.id', 'like', '%' . $search . '%')
+                    ->orWhere('products.name', 'like', '%' . $search . '%')
                     ->orWhereRelation('category', 'name','like', '%' . $search . '%');
             }
 
