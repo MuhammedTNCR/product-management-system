@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
+use Elastic\ScoutDriverPlus\Searchable;
 
 class Product extends Model
 {
+    use Searchable;
     use HasFactory;
 
     protected $fillable = ['name', 'category_id', 'price', 'stock', 'sku'];
@@ -58,7 +60,20 @@ class Product extends Model
             'sku' => $sku
         ]);
 
+        Redis::expire("product:$id", 3600);
+
         Redis::sadd('product_ids', $id);
+    }
+
+    public function toSearchableArray()
+    {
+        // Convert the model instance to an array
+        $array = $this->toArray();
+
+        // Include the category relation
+        $array['category'] = $this->category ? $this->category->toArray() : null;
+        // Return the customized array
+        return $array;
     }
 
     public function category(): BelongsTo

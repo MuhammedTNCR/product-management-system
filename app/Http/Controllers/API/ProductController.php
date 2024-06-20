@@ -31,6 +31,11 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
+    public function search(Request $request)
+    {
+        return $this->productRepository->search($request->all());
+    }
+
     /**
      * Display the specified resource.
      */

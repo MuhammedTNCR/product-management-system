@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 interface ProductRepositoryInterface
 {
-    public function create(array $data);
-    public function index(array $data);
+    public function create(array $params);
+    public function index(array $params);
+    public function search(array $params);
 }
