@@ -5,7 +5,7 @@ return [
     'connections' => [
         'default' => [
             'hosts' => [
-                env('ELASTIC_HOST', 'localhost:9200'),
+                env('ELASTICSEARCH_HOST', 'localhost:9200'),
             ],
         ],
     ],

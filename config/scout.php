@@ -199,4 +199,11 @@ return [
         ],
     ],
 
+    'elastic' => [
+        'index' => env('ELASTICSEARCH_INDEX', 'laravel'),
+        'hosts' => [
+            env('ELASTICSEARCH_HOST', 'http://elasticsearch:9200'),
+        ],
+    ],
+
 ];
