@@ -83,5 +83,4 @@ To stop the Docker containers, use the following command:
 ```
 You can find more sail information and commands at https://laravel.com/docs/10.x/sail
 
-This example shows how to properly format and switch between code blocks and normal text within your `README.md` file.
 
