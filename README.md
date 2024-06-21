@@ -75,6 +75,11 @@ Run the database migrations to set up the database schema:
 ./vendor/bin/sail artisan migrate --seed
 ```
 
+Index your models with scout. For example:
+```bash
+./vendor/bin/sail artisan scout:index 'App\Models\Product'
+```
+
 Once the containers are up and running, you can access the Laravel application at http://localhost
 
 To stop the Docker containers, use the following command:
