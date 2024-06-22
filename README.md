@@ -43,6 +43,7 @@ ELASTICSEARCH_HOST=http://elasticsearch:9200
 ELASTIC_CONNECTION=default
 ELASTIC_HOST=elasticsearch:9200
 ELASTIC_SCOUT_DRIVER_REFRESH_DOCUMENTS=false
+APP_PORT=8000
 ```
 
 Update the docker-compose.yml file to include the Elasticsearch service:
@@ -68,6 +69,7 @@ elasticsearch:
 Now, build and start the Docker containers using Laravel Sail:
 ```bash
 ./vendor/bin/sail up -d
+./vendor/bin/sail optimize
 ```
 
 Run the database migrations to set up the database schema:
